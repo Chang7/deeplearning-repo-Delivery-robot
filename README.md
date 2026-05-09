@@ -101,6 +101,26 @@ pytest -q
 일부 테스트는 카메라, DB, YOLO 모델, GUI 환경이 필요할 수 있습니다.  
 로컬 PC에서 먼저 실행 가능한 smoke test부터 분리하는 것을 권장합니다.
 
+## 실제 카트/카메라 없이 로컬 시뮬레이션
+
+카메라, DB, 실제 카트 없이 localhost TCP/UDP 통신 흐름을 검증할 수 있습니다.
+
+```bash
+python scripts/simulate_localhost_io.py
+```
+
+pytest 기반 테스트:
+
+```bash
+python -m pytest -q test/test_localhost_io.py
+```
+
+이 검증은 다음을 확인합니다.
+
+- TCP length-prefixed JSON request/response round-trip
+- UDP frame chunking/reassembly round-trip
+- `send_frame_raw()` 경로가 OpenCV 없이도 동작하는지 확인
+
 ## 개발 상태 요약
 
 현재 `dev` 브랜치는 핵심 구조와 모델/네트워크/DB/UI 모듈이 포함되어 있으나, GitHub에 다시 올리기 전 다음 보완이 필요합니다.

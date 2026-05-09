@@ -1,7 +1,5 @@
 import socket
 import struct
-import cv2
-import numpy as np
 from typing import Generator, Dict
 
 # =========================
@@ -57,6 +55,8 @@ class UDPFrameSender:
             self.sock.sendto(header + payload, self.addr)
 
     def _encode_frame(self, frame) -> bytes:
+        import cv2
+
         ok, buffer = cv2.imencode(
             ".jpg",
             frame,
@@ -131,5 +131,8 @@ class UDPFrameReceiver:
         return None
 
     def _decode_frame(self, data: bytes):
+        import cv2
+        import numpy as np
+
         nparr = np.frombuffer(data, dtype=np.uint8)
         return cv2.imdecode(nparr, cv2.IMREAD_COLOR)
